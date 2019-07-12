@@ -55,6 +55,13 @@ export default {
 		  border-bottom: 5px #409eff solid;
 		}
 	}
+	.nuxt-link-exact-active{
+		background: #409eff;
+		color:#fff;
+		&:hover{
+			color:#fff;
+		}
+	}
 }
 
 </style>

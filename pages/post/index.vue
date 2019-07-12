@@ -1,5 +1,5 @@
 <template>
-  <div>攻略首页</div>
+  <div>旅游攻略</div>
 </template>
 <script>
 export default {
