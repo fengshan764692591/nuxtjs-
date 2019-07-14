@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div>
     <div class="footer-wrapper">
       <div class="footer">
         <el-row class="info-list">
@@ -54,50 +54,44 @@
 export default {};
 </script>
 <style lang="less" scoped>
-.footer-wrapper {
-  background: #333;
-  color: #ccc;
-  min-width: 1000px;
-}
-
-.footer {
-  padding-top: 30px;
-  margin: 0 auto;
-  width: 1000px;
-}
-
-.info-list {
-  h5 {
-    font-weight: normal;
-    font-size: 16px;
-    margin-bottom: 10px;
+  .footer-wrapper{
+    background: #333;
+    color: #ccc;
+    min-width: 1000px;
   }
-
-  p {
-    font-size: 12px;
-    line-height: 1.8;
-    span {
-      color: orange;
+  .footer{
+    padding-top: 30px;
+    margin: 0 auto;
+    width: 1000px;
+  }
+  .info-list{
+    h5{
+      font-weight: normal;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    p{
+      font-size: 12px;
+      line-height: 1.8;
+      span{
+        color:orange;
+      }
     }
   }
-}
-
-.scan {
-  text-align: center;
-
-  img {
-    width: 140px;
-    height: 140px;
+  .scan{
+    text-align: center;
+    img{
+      width: 140px;
+      height: 140px;
+    }
+    font-size: 12px;
+  }
+  .licence{
+    border-top: 1px #666 solid;
+    margin-top: 20px;
+    padding:50px 0;
+    text-align: center;
+    font-size: 12px;
   }
 
-  font-size: 12px;
-}
-
-.licence {
-  border-top: 1px #666 solid;
-  margin-top: 20px;
-  padding: 50px 0;
-  text-align: center;
-  font-size: 12px;
-}
 </style>
