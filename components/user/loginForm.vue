@@ -52,6 +52,7 @@ export default {
 				
           // 调用actions的登录方法
         this.$store.dispatch("user/login",this.form)
+        this.$router.back()
 				}
 			})
     }
