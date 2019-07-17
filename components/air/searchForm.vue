@@ -13,7 +13,7 @@
       </span>
     </el-row>
 
-    <el-form class="search-form-content" ref="form" label-width="80px" >
+    <el-form class="search-form-content" ref="form" label-width="80px">
       <el-form-item label="出发城市">
         <!-- fetch-suggestions 返回输入建议的方法 -->
         <!-- select 点击选中建议项时触发 -->
@@ -22,7 +22,7 @@
           placeholder="请搜索出发城市"
           @select="handleDepartSelect"
           class="el-autocomplete"
-         v-model="form.departCity"
+          v-model="form.departCity"
         ></el-autocomplete>
       </el-form-item>
       <el-form-item label="到达城市">
@@ -31,7 +31,7 @@
           placeholder="请搜索到达城市"
           @select="handleDestSelect"
           class="el-autocomplete"
-        v-model="form.destCity"
+          v-model="form.destCity"
         ></el-autocomplete>
       </el-form-item>
       <el-form-item label="出发时间">
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import moment from "moment"
+import moment from "moment";
 export default {
   data() {
     return {
@@ -65,135 +65,152 @@ export default {
       ],
       currentTab: 0,
       form: {
-        departCity: "", //出发城市
-        departCode: "",
-        destCity: "",
-        destCode: "",
-        departDate: "" //日期
+        departCity: "", // 出发城市
+        departCode: "", // 出发城市代码
+        destCity: "", // 到达城市
+        destCode: "", // 到达城市代码
+        departDate: "" // 日期字符串
       }
     };
   },
   methods: {
     // tab切换时触发
     handleSearchTab(item, index) {
-      if(index === 1){
-       this.$alert("暂时没有往返")
-      }
-    },
+			if(index === 1){
+				this.$confirm("暂时不支持往返，请使用单程票！",'提示',{
+              confirmButtonText: '确定',
+            showCancelButton: false,
+            type: 'warning'
+				})
+			}
+		},
 
     // 出发城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
-    queryDepartSearch(value, cb) {
-      if(!value) return
-      // 请求推荐城市列表
-      this.$axios({
-        url: '/airs/city',
-        params: {
-          name: value
-        }
-      }).then(res =>{
-        // console.log(res.data)
-        const {data} = res.data
-        const newData = data.map(v => {
-          v.value = v.name.replace("市","")
-          return v
-        })
-         // 默认选中第一个
-        this.form.departCity = newData[0].value
-        this.form.departCode = newData[0].sort
-          cb(newData);
-      })
-
+    // 出发城市输入框获得焦点时触发
+    // value 是选中的值，cb是回调函数，接收要展示的列表
+    async queryDepartSearch(value, cb) {
+      const arr = await this.querySearchAsync(value);
+      if (arr.length > 0) {
+        // 不在下拉列表中选择，则默认选择第一项
+        this.form.departCity = arr[0].value;
+        this.form.departCode = arr[0].sort;
+      }
+      cb(arr);
     },
 
     // 目标城市输入框获得焦点时触发
     // value 是选中的值，cb是回调函数，接收要展示的列表
-    queryDestSearch(value, cb) {
-       if(!value) return
-      // 请求推荐城市列表
-      this.$axios({
-        url: '/airs/city',
-        params: {
-          name: value
+    async queryDestSearch(value, cb) {
+      const arr = await this.querySearchAsync(value);
+      if (arr.length > 0) {
+        // 不在下拉列表中选择，则默认选择第一项
+        this.form.destCity = arr[0].value;
+        this.form.destCode = arr[0].sort;
+      }
+      cb(arr);
+    },
+
+    // 查询城市接口的方法，返回promise
+    // queryString是查询关键字
+    querySearchAsync(queryString) {
+      return new Promise((resolve, reject) => {
+        // 如果关键字是空，则直接返回
+        if (!queryString) {
+          return resolve([]);
         }
-      }).then(res =>{
-        // console.log(res.data)
-        const {data} = res.data
-        const newData = data.map(v => {
-          v.value = v.name.replace("市","")
-          return v
-        })
-        // 默认选中第一个
-        this.form.destCity = newData[0].value
-        this.form.destCode = newData[0].sort
-          cb(newData);
-      })
+
+        this.$axios({
+          url: `/airs/city`,
+          params: {
+            name: queryString
+          }
+        }).then(res => {
+          const { data } = res.data;
+
+          // 下拉提示列表必须要有value字段
+          const arr = data.map(v => {
+            return {
+              ...v,
+              value: v.name.replace("市", "")
+            };
+          });
+          resolve(arr);
+        });
+      });
     },
 
     // 出发城市下拉选择时触发
     handleDepartSelect(item) {
-      // 赋值给form里面的对象
-      this.form.departCity = item.value
-      this.form.departCode = item.sort
+      this.form.departCity = item.value;
+      this.form.departCode = item.sort;
     },
 
     // 目标城市下拉选择时触发
     handleDestSelect(item) {
-        this.form.destCity = item.value
-      this.form.destCode = item.sort
+      this.form.departCity = item.value;
+      this.form.destCode = item.sort;
     },
 
     // 确认选择日期时触发
     handleDate(value) {
-      this.form.departDate = moment(value).format("YYYY-MM-DD")
+      this.form.departDate = moment(value).format("YYYY-MM-DD");
     },
 
     // 触发和目标城市切换时触发
-    handleReverse(){
-      const {departCity,departCode,destCity,destCode} = this.form
-      this.form.departCity = destCity
-      this.form.departCode = destCode
-      this.form.destCity = departCity
-      this.form.destCode = departCode
-    },
+    handleReverse() {
+			const {departCity,departCode,destCode,destCity} = this.form
+			this.form.departCity = destCity
+			this.form.departCode = destCode
+
+			this.form.destCity = departCity
+			this.form.destCode = departCode
+		},
 
     // 提交表单是触发
     handleSubmit() {
       // console.log(this.form)
-      // 验证方式
       const rules = {
-        departCity :{
-        value : this.form.departCity,
-        message: "请选择出发城市"
+        depart: {
+          value: this.form.departCity,
+          message: "请选择出发城市"
         },
-         destCity :{
-        value : this.form.destCity,
-        message: "请选择出到达城市"
+        dest: {
+          value: this.form.destCity,
+          message: "请选择到达城市"
         },
-         departDate :{
-        value : this.form.departDate,
-        message: "请选择出日期"
+        departDate: {
+          value: this.form.departDate,
+          message: "请选择出发时间"
         }
-      }
-      // 开关作用，判断验证是否通过
-      let valid = true
-      // 循环判断上面的字段是否为空
-      Object.keys(rules).forEach(v =>{
-        if(!valid) return
-        
-        if(!rules[v].value){
-          valid = false
-          this.$message.warning(rules[v].message)
-        }
-      })
+      };
 
-      // 跳转
-      if(valid){
-        this.$router.push({
+      let valid = true; // 表单验证结果
+
+      Object.keys(rules).forEach(v => {
+        // 只要有一个结果不通过，就停止循环
+        if (!valid) return;
+        const item = rules[v];
+
+        // 数据字段为空
+        if (!item.value) {
+          valid = false;
+
+          this.$confirm(item.message, "提示", {
+            confirmButtonText: "确定",
+            showCancelButton: false,
+            type: "warning"
+          });
+        }
+      });
+
+      // 不通过验证，不需要往下执行
+      if (!valid) return;
+
+      this.$router.push({
         path: "/air/flights",
         query: this.form
-      })
-      }
+      });
     }
   },
   mounted() {}
