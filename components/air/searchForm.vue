@@ -207,6 +207,15 @@ export default {
       // 不通过验证，不需要往下执行
       if (!valid) return;
 
+     
+  //  把当前的搜索条件存到本地存储里面
+    const airs = JSON.parse(localStorage.getItem("airs"))
+    airs.unshift(this.form)
+    if(airs.length > 5){
+      airs.length = 5
+    }
+    localStorage.setItem("airs",JSON.stringify(airs))
+    //  跳转
       this.$router.push({
         path: "/air/flights",
         query: this.form

@@ -47,37 +47,35 @@
             </el-col>
             <el-col :span="5" class="price">￥{{item.org_settle_price}}</el-col>
             <el-col :span="3" class="choose-button">
-              <el-button type="warning" size="mini">选定</el-button>
+              <el-button type="warning" size="mini" @click="handleChoose(data.id,item.seat_xid)">选定</el-button>
               <p>剩余：{{item.discount}}</p>
             </el-col>
           </el-row>
         </el-col>
       </el-row>
-    </div>  
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    // 数据
     data: {
       type: Object,
-      // 默认是空数组
       default: {}
     }
   },
   data() {
     return {
-			isShow: false
-		};
+      isShow: false
+    };
   },
   computed: {
     // 计算事件差
     rankTime() {
       const arr = this.data.arr_time; //19:30
       const dep = this.data.dep_time; // 17:00
-      console.log(this.data.arr_time);
+      // console.log(this.data.arr_time);
       let end = arr.split(":"); //["19","30"]
       let start = dep.split(":");
       if (end < start) {
@@ -89,7 +87,18 @@ export default {
       const min = dis % 60;
       return `${hours}时${min}分钟`;
     }
+  },
+ methods: {
+  handleChoose(id,seatId){
+    this.$router.push({
+      path: "/air/order",
+      query: {
+        id,
+        seat_xid: seatId
+      }
+    })
   }
+ }
 };
 </script>
 

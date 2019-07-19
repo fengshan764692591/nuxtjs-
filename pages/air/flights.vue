@@ -4,7 +4,10 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <div></div>
+        <!-- 过滤条件 -->
+        <!-- data 是不会被修改的列表数据 -->
+        <!-- setDataList 用于修改过滤后的数组列表 -->
+        <FlightsFilters :data="cacheFlightsData" @setDataList="setDataList" />
 
         <!-- 航班头部布局 -->
         <FlightsListHead></FlightsListHead>
@@ -25,14 +28,14 @@
             :page-sizes="[5, 10, 15, 20]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="flightsData.total"
+            :total="cacheFlightsData.total"
           ></el-pagination>
         </el-row>
       </div>
 
       <!-- 侧边栏 -->
       <div class="aside">
-        <!-- 侧边栏组件 -->
+         <FlightsAside/>
       </div>
     </el-row>
   </section>
@@ -41,17 +44,26 @@
 <script>
 import FlightsListHead from "@/components/air/flightsListHead.vue";
 import FlightsItem from "@/components/air/flightsItem.vue";
+import FlightsFilters from "@/components/air/flightsFilters.vue";
+import FlightsAside from "@/components/air/flightsAside.vue";
 export default {
   components: {
     FlightsListHead,
-    FlightsItem
+    FlightsItem,
+    FlightsFilters,
+    FlightsAside
   },
   data() {
     return {
-      flightsData: {}, //航班总数据
-			dataList: [], //航班列表数据，用于循环filghtsItem组件，单独出来主要是应为分页
-			pageIndex: 1,  //显示当前页
-			pageSize: 5   // 显示条数
+      cacheFlightsData: {   //缓存数据只会修改一次
+        flights: [],
+        info: {},
+        options: {}
+      }, //航班总数据
+      dataList: [], //航班列表数据，用于循环filghtsItem组件，单独出来主要是应为分页
+      pageIndex: 1, //显示当前页
+      pageSize: 5, // 显示条数
+    setDataList: []
     };
   },
   methods: {
@@ -63,28 +75,35 @@ export default {
       }).then(res => {
         //  console.log(res)
         this.flightsData = res.data;
-				// this.dataList = this.flightsData.flights;
-				this.setDatalist()
+        // this.dataList = this.flightsData.flights;
+        // 缓存一份数据，这个列表不会被修改，而flightsData会被修改
+        this.cacheFlightsData = {...res.data}
+        this.setDatalist();
       });
-		},
-		// 设置dataLisr数据
-		setDatalist() {
-			const start = (this.pageIndex - 1) * this.pageSize
-			const end = start + this.pageSize;
-			this.dataList = this.flightsData.flights.slice(start,end)
-		},
-		// 切换条数的时候触发
-		handleSizeChange(value){
-			this.pageSize = value
-			this.pageIndex = 1
-			this.setDatalist()
-		},
-		// 切换页数时触发
-		handleCurrentChange(value){
-			 this.pageIndex = value
-			 this.setDatalist()
-		}
-		
+    },
+    // 设置dataLisr数据
+    setDatalist(arr) {
+      // 如果有新数据从第一页开始显示
+      if(arr){
+        this.pageIndex = 1
+        this.flightsData.flights = arr
+        this.flightsData.total = arr.lenth
+      }
+      const start = (this.pageIndex - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      this.dataList = this.flightsData.flights.slice(start, end);
+    },
+    // 切换条数的时候触发
+    handleSizeChange(value) {
+      this.pageSize = value;
+      this.pageIndex = 1;
+      this.setDatalist();
+    },
+    // 切换页数时触发
+    handleCurrentChange(value) {
+      this.pageIndex = value;
+      this.setDatalist();
+    }
   },
   mounted() {
     this.getData();
