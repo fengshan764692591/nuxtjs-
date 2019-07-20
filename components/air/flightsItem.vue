@@ -79,7 +79,7 @@ export default {
       let end = arr.split(":"); //["19","30"]
       let start = dep.split(":");
       if (end < start) {
-        end[0] += 24;
+        end[0] = +end[0] + 24;
       }
       // +end[1] 把字符穿转换为数字
       const dis = end[0] * 60 + +end[1] - (start[0] * 60 + +start[1]);

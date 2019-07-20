@@ -44,5 +44,20 @@ export const actions = {
           // user模块名
          commit("setUserInfo",res.data);
           })
+	},
+	// 手机验证码
+	sendCode(store,phoneNumber){
+	return	this.$axios({
+			url: "/captchas",
+			method: "POST",
+			data: {
+				tel: phoneNumber
+			}
+		}).then(res => {
+			// console.log(res)
+			const { code } = res.data;
+			return code
+		
+		});
 	}
 }

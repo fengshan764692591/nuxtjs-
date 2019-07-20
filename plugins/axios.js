@@ -2,7 +2,7 @@
 import {Message} from "element-ui"
 // Message = this.$message
 // 第一个参数是 nuxt
-export default ({ $axios }) =>{
+export default ({ $axios,redirect }) =>{
     // 拦截错误的请求
     // console.log(nuxt)
     $axios.onError(err =>{
@@ -12,6 +12,11 @@ export default ({ $axios }) =>{
         if(statusCode === 400){
             Message.error(message)
         }
+			// 未授权
+			if(statusCode === 401 || statusCode === 403){
+				// 跳转到登录页面
+				redirect("/user/login")
+			}
       
     })
 }

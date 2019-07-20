@@ -2,20 +2,40 @@
   <div class="container">
     <el-row type="flex" justify="space-between">
       <!-- 订单表单 -->
-      <OrderForm />
+      <!-- 子传父 -->
+      <!-- <OrderForm @setInfoData="setInfoData"/> -->
+      <OrderForm/>>
 
       <!-- 侧边栏 -->
-      <div class="aside"></div>
+      <!-- 父传子 -->
+      <!-- <OrderAside :data="infoData"/> -->
+      <OrderAside :data="$store.state.air.infoData"/>
     </el-row>
   </div>
 </template>
 
 <script>
 import OrderForm from "@/components/air/orderForm.vue";
+import OrderAside from "@/components/air/OrderAside.vue";
 export default {
   components: {
-    OrderForm
-  }
+    OrderForm,
+    OrderAside
+  },
+  data() {
+    return {
+      // 订单机票的信息
+      // infoData: {
+      //   insurances: [], // 初始化保险数据
+      //   seat_infos: {}
+      // }
+    };
+  },
+methods:{
+  // setInfoData(data){
+  //   this.infoData = data
+  // }
+}
 };
 </script>
 
