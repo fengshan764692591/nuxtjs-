@@ -1,6 +1,11 @@
 <template>
+<<<<<<< HEAD
   <div class="flight-item" >
     <div @click="isShow = !isShow">
+=======
+  <div class="flight-item">
+    <div @click=" isShow = !isShow">
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
       <!-- 显示的机票信息 -->
       <el-row type="flex" align="middle" class="flight-info">
         <el-col :span="6">
@@ -28,9 +33,15 @@
         </el-col>
       </el-row>
     </div>
+<<<<<<< HEAD
     <div class="flight-recommend" v-show="isShow">
       <!-- 隐藏的座位信息列表 -->
       <el-row type="flex" justify="space-between" align="middle">
+=======
+    <div class="flight-recommend">
+      <!-- 隐藏的座位信息列表 -->
+      <el-row type="flex" justify="space-between" align="middle" v-show="isShow">
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
         <el-col :span="4">低价推荐</el-col>
         <el-col :span="20">
           <el-row
@@ -47,7 +58,11 @@
             </el-col>
             <el-col :span="5" class="price">￥{{item.org_settle_price}}</el-col>
             <el-col :span="3" class="choose-button">
+<<<<<<< HEAD
               <el-button type="warning" size="mini" @click="handleToOrder(data.id,item.seat_xid)">选定</el-button>
+=======
+              <el-button type="warning" size="mini" @click="handleChoose(data.id,item.seat_xid)">选定</el-button>
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
               <p>剩余：{{item.discount}}</p>
             </el-col>
           </el-row>
@@ -60,6 +75,7 @@
 <script>
 export default {
   props: {
+<<<<<<< HEAD
     // 数据
     data: {
       type: Object,
@@ -102,6 +118,47 @@ export default {
       })
 		}
 	}
+=======
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
+  data() {
+    return {
+      isShow: false
+    };
+  },
+  computed: {
+    // 计算事件差
+    rankTime() {
+      const arr = this.data.arr_time; //19:30
+      const dep = this.data.dep_time; // 17:00
+      // console.log(this.data.arr_time);
+      let end = arr.split(":"); //["19","30"]
+      let start = dep.split(":");
+      if (end < start) {
+        end[0] = +end[0] + 24;
+      }
+      // +end[1] 把字符穿转换为数字
+      const dis = end[0] * 60 + +end[1] - (start[0] * 60 + +start[1]);
+      const hours = Math.floor(dis / 60);
+      const min = dis % 60;
+      return `${hours}时${min}分钟`;
+    }
+  },
+ methods: {
+  handleChoose(id,seatId){
+    this.$router.push({
+      path: "/air/order",
+      query: {
+        id,
+        seat_xid: seatId
+      }
+    })
+  }
+ }
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
 };
 </script>
 

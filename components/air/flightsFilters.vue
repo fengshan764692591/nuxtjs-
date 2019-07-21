@@ -12,7 +12,11 @@
           <el-option
             :label="item"
             :value="item"
+<<<<<<< HEAD
             v-for="(item,index) in data.options.airport"
+=======
+            v-for="(item,index) in data.info.airport"
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
             :key="index"
           ></el-option>
         </el-select>
@@ -20,9 +24,15 @@
       <el-col :span="4">
         <el-select size="mini" v-model="flightTimes" placeholder="起飞时间" @change="handleFlightTimes">
           <el-option
+<<<<<<< HEAD
             :label="`${item.from}:00 - ${item.to}:00`"
             :value="`${item.from},${item.to}`"
             v-for="(item,index) in data.options.flightTimes"
+=======
+            label="`${item.from}:00 - ${item.to}:00`"
+            value="item"
+            v-for="(item,index) in data.flightTimes"
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
             :key="index"
           ></el-option>
         </el-select>
@@ -57,6 +67,7 @@
 
 <script>
 export default {
+<<<<<<< HEAD
   props: {
     // 接收filghtsData
     data: {
@@ -64,6 +75,8 @@ export default {
       default: {}
     }
   },
+=======
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
   data() {
     return {
       airport: "", // 机场
@@ -74,6 +87,7 @@ export default {
         { name: "大", size: "L" },
         { name: "中", size: "M" },
         { name: "小", size: "S" }
+<<<<<<< HEAD
       ]
     };
   },
@@ -85,10 +99,30 @@ export default {
       });
       // 得到一个过滤后的数组，传递给父组件
       this.$emit("changeFlihts", arr);
+=======
+      ],
+        setDataList: []
+    };
+  },
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
+  methods: {
+    // 选择机场时候触发
+    handleAirport(value) {
+      const arr = this.data.flights.filter(v =>{
+        v.org_airport_name === value
+      })
+      this.$emit("setDataList",arr)
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
     },
 
     // 选择出发时间时候触发
     handleFlightTimes(value) {
+<<<<<<< HEAD
       // console.log(value)
       // 先拿到 “12”，“6”
       const [from, to] = value.split(",");
@@ -101,10 +135,18 @@ export default {
       });
       // 得到一个过滤后的数组，传递给父组件
       this.$emit("changeFlihts", arr);
+=======
+      // console.log(this.data.flights)
+      const arr = this.data.flights.filter(v =>{
+        return value.from <= +v.dep_time.split(":")[0] && value.to >= +v.dep_time.split(":")[0]
+      })
+      this.$emit("setDataList",arr)
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
     },
 
     // 选择航空公司时候触发
     handleCompany(value) {
+<<<<<<< HEAD
       // console.log(value)
       // 遍历数组，拿到我们选择的航空公司
       const arr = this.data.flights.filter(v => {
@@ -112,25 +154,50 @@ export default {
       });
       // 得到一个过滤后的数组，传递给父组件
       this.$emit("changeFlihts", arr);
+=======
+      // console.log(value);
+      // 过滤后得到一个数组，传递回去给父组件
+      // this.$emit("changeFlights", arr);
+      const arr = this.data.flights.filter(v =>{
+        v.airline_name = value
+      })
+      this.$emit("setDataList",arr)
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
     },
 
     // 选择机型时候触发
     handleAirSize(value) {
+<<<<<<< HEAD
       const arr = this.data.flights.filter(v => {
         return v.plane_size === value;
 			});
 			   // 得到一个过滤后的数组，传递给父组件
       this.$emit("changeFlihts", arr);
+=======
+      const arr = this.data.flights.filter(v =>{
+        v.plane_size === value
+      })
+      this.$emit("setDataList",arr)
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
     },
 
     // 撤销条件时候触发
     handleFiltersCancel() {
+<<<<<<< HEAD
 			this.airport = "",
 			this.flightTimes = "",
 			this.company = "",
 			this.airSize = ""
 		 this.$emit("changeFlihts", this.data.flights);
 		}
+=======
+      this.airport = "",
+      this.flightTimes = "",
+      this.company = "",
+      this.airSize = "",
+      this.$emit("setDataList",this.data.flights)
+    }
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
   }
 };
 </script>

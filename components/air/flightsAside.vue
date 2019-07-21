@@ -21,6 +21,7 @@
     <div class="history">
       <h5>历史查询</h5>
       <nuxt-link
+<<<<<<< HEAD
         :to="`/air/flights?departCity=${item.departCity}&departCode=${item.departCode}&destCity=${item.destCity}&destCode=${item.destCode}&departDate=${item.departDate}`"
         v-for="(item,index) in history"
         :key="index"
@@ -28,6 +29,15 @@
         <el-row type="flex" justify="space-between" align="middle" class="history-item">
           <div class="air-info">
             <div class="to-from">{{item.departCity}} - {{item.destCity}}</div>
+=======
+        to="/air/flights?departCity=${item.departCity}&departCode=${item.departCode}&destCity=${item.destCity}&destCode=${item.destCode}&departDate=${item.departDate}`"
+      v-for="(item,index) in airsLog"
+			:key="index"
+			>
+        <el-row type="flex" justify="space-between" align="middle" class="history-item">
+          <div class="air-info">
+            <div class="to-from"> {{item.departCity}} - {{item.destCity}}</div>
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
             <p>{{item.departDate}}</p>
           </div>
           <span>选择</span>
@@ -39,6 +49,7 @@
 
 <script>
 export default {
+<<<<<<< HEAD
   data() {
     return {
       history: []
@@ -47,6 +58,23 @@ export default {
   mounted() {
     this.history = JSON.parse(localStorage.getItem("airs")) || []
   }
+=======
+	watch:{
+	// 监听URL的变化
+	$route(){
+    this.getData();
+	  }
+	},
+	data(){
+		return{
+			airsLog: []
+		}
+	},
+	mounted(){
+		// 获取历史记录
+		this.airsLog = JSON.parse(localStorage.getItem("airs") || `[]`)
+	}
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
 };
 </script>
 

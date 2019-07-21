@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import LoginForm from "@/components/user/LoginForm.vue"
 import RegisterForm from "@/components/user/RegisterForm.vue"
 export default {
@@ -33,12 +34,27 @@ export default {
   data() {
     return {
       currentTab: 0,
+=======
+import LoginForm from '@/components/user/loginForm.vue'
+import RegisterForm from '@/components/user/registerForm.vue'
+export default {
+  data() {
+    return {
+      currentTab: 0
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
     };
   },
   methods: {
     handleChangeTab(index) {
       this.currentTab = index;
     }
+<<<<<<< HEAD
+=======
+  },
+  components:{
+    LoginForm,
+    RegisterForm
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
   }
 };
 </script>

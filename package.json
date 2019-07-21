@@ -17,8 +17,11 @@
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
+<<<<<<< HEAD
     "qrcode": "^1.4.1",
     "vue-word-editor": "0.0.1",
+=======
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {

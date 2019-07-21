@@ -8,7 +8,11 @@
     <!-- 搜索广告栏 -->
     <el-row type="flex" justify="space-between">
       <!-- 搜索表单 -->
+<<<<<<< HEAD
       <searchForm></searchForm>
+=======
+      <SearchForm></SearchForm>
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
 
       <!-- banner广告 -->
       <div class="sale-banner">
@@ -38,6 +42,7 @@
     </h2>
 
     <!-- 特价机票 -->
+<<<<<<< HEAD
    <div class="air-sale">
         <el-row type="flex" class="air-sale-pic" justify="space-between">
             <el-col :span="6" v-for="(item, index) in sales" :key="index">
@@ -50,11 +55,28 @@
                 </nuxt-link>
             </el-col>
         </el-row>
+=======
+    <div class="air-sale">
+      <el-row type="flex" class="air-sale-pic" justify="space-between">
+        <el-col :span="6" v-for="(item, index) in sales" :key="index">
+          <nuxt-link
+            :to="`/air/flights?departCity=${item.departCity}&departCode=${item.departCode}&destCity=${item.destCity}&destCode=${item.destCode}&departDate=${item.departDate}`"
+          >
+            <img :src="item.cover" />
+            <el-row class="layer-bar" type="flex" justify="space-between">
+              <span>{{item.departCity}}-{{item.destCity}}</span>
+              <span>￥699</span>
+            </el-row>
+          </nuxt-link>
+        </el-col>
+      </el-row>
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
     </div>
   </section>
 </template>
 
 <script>
+<<<<<<< HEAD
 import searchForm from '@/components/air/searchForm.vue'
 export default {
   components:{
@@ -73,6 +95,25 @@ mounted(){
   })
 }
 
+=======
+import SearchForm from "@/components/air/searchForm.vue";
+export default {
+  components: {
+    SearchForm
+  },
+  data() {
+    return {
+      sales: []
+    };
+	},
+	mounted(){
+		this.$axios({
+			url: '/airs/sale',
+		}).then(res =>{
+			this.sales = res.data.data
+		})
+	}
+>>>>>>> 647924a91849ba3ed7bf829711ca4d419b88477a
 };
 </script>
 
