@@ -1,6 +1,5 @@
 <template>
-  <div>酒店首页
-     <div data-v-2372b9a8 class="post-info el-row is-justify-space-between el-row--flex">
+  <div data-v-2372b9a8 class="post-info el-row is-justify-space-between el-row--flex">
     <div data-v-2372b9a8 class="post-info-left el-row is-align-middle el-row--flex">
       <span data-v-2372b9a8>
         <i data-v-2372b9a8 class="el-icon-location-outline"></i>
@@ -19,14 +18,4 @@
     </div>
     <span data-v-2372b9a8 class="post-info-right">31 赞</span>
   </div>
-  </div>
 </template>
-<script>
-export default {
-  
-}
-</script>
-<style lang="less" scoped>
-
-</style>
-

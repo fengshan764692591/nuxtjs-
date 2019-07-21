@@ -40,13 +40,13 @@
         </div>
       </div>
     </div>
-    <!-- 搜索框 -->
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+    
       banners: [], // 轮播图数据
       options: [
         // 搜索框tab选项
@@ -80,7 +80,12 @@ export default {
   },
 
   methods: {
-    handleOption(index) {},
+    handleOption(index) {
+      this.currentOption = index;
+     if(index === 2){
+       this.$router.push("/air")
+     }
+    },
     handleSearch() {}
   }
 };
